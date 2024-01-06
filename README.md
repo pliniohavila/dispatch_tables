@@ -1,16 +1,12 @@
 # [Estudos de C] Breves notas sobre 'Dispatch Tables'
 
 
-# O que é uma "Dispatch Tables"
-
-## Funções que retornam ponteiros para outras funções
-
 Antes de nos adentrarmos na implementação de uma _Dispatch Tables_, primeiro vamos conhecer as funções que retornam ponteiros paras outras funções. 
 Ou seja, diferentemente das funções tradicionais, nesta, não é retornado um dado, mas sim um ponteiro para outra função que será chamada no fluxo de execução da aplicação. 
 
-<!-- ### Ponteiros para funções -->
+# Funções que retornam ponteiros para outras funções
 
-Incialmente vamos revisar os conceitos de ponteiros para funções. 
+Inicialmente vamos revisar os conceitos de ponteiros para funções. 
 
 Uma função normal tem o seguinte protótipo:
 
@@ -57,7 +53,7 @@ int     main(void)
 ```
 No exemplo acima é declarado a variável `op` que receberá um ponteiro para uma função que aceita dois inteiros como argumento e devolve um inteiro. Em seguida, assinalamos para o endereço da função função — veja que é simples: indicamos apenas o nome — e em seguida a chamamos.
 
-Uma outra forma, é definindo um tipo especifico para essas variáveis, assim, o código fica mais claro e concisso. Veja o exemplo abaixo, no qual definimos o tipo `fptr`:
+Uma outra forma, é definindo um tipo especifico para essas variáveis, assim, o código fica mais claro e conciso. Veja o exemplo abaixo, no qual definimos o tipo `fptr`:
 
 ```c
 #include<stdio.h> 
@@ -153,7 +149,7 @@ int     sum(int n1, int n2) { return (n1 + n2);}
 int     min(int n1, int n2) { return (n1 - n2);}
 ```
 
-Agora, como vimos linhas acima quando estavamos lidando com ponteiros para funções, podemos definir um tipo específico para as funções que serão retornadas. Vejamos o mesmo código com as alterações para o uso da tipagem. 
+Agora, como vimos linhas acima quando estávamos lidando com ponteiros para funções, podemos definir um tipo específico para as funções que serão retornadas. Vejamos o mesmo código com as alterações para o uso da tipagem. 
 
 ```c
 #include <stdio.h>
@@ -189,3 +185,5 @@ int     min(int n1, int n2) { return (n1 - n2);}
 ```
 
 Feitas essas revisões, vamos agora implementar uma _Dispatch Table_. 
+
+# O que é uma "Dispatch Tables"
