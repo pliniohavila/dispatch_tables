@@ -7,11 +7,13 @@ Ou seja, diferentemente das funções tradicionais, nesta, não é retornado um 
 # Funções que retornam ponteiros para outras funções
 
 Inicialmente vamos revisar os conceitos de ponteiros para funções. 
+Segundo Ananda Gunawardena, "_Functions like variables, can be associated with an address in the memory. We call
+this a function pointer._"
 
 Uma função normal tem o seguinte protótipo:
 
 ```
-<tipo de retorno> <nome da função>(declaração de parâmetros) 
+<tipo_de_retorno> <nome_da_função>(declaração_de_parâmetros) 
 ``` 
 Por exemplo:
 
@@ -26,11 +28,21 @@ Onde:
 
 Sua utilização é simples, basta chamar a função passando os respectivos argumentos. 
 
-Agora, vamos revisar os conceitos de ponteiros para funções. O seu uso se dá declarando um ponteiro para uma função com a seguinte forma:
+Agora, um ponteiro para função poderá ser declarado da seguinte pseudo-forma:
 
 ```
-<tipo de retorno> (*nome do ponteiro para a função)(declaração de parâmetros) 
+<tipo_de_retorno> (*nome_do_ponteiro_para_a_função)(declaração_de_parâmetros) 
 ```  
+Um exemplo pratico:
+
+```c 
+int     (*op)(int a, int b);
+```
+
+Acima, nos definimos um ponteiro para função cujo nome é `op`, que pode ser inicializado apontado para qualquer função que receba dois inteiros como 
+parâmetros e devolve um inteiro como resposta.
+Como se pode ver, por meio do ponteiro `op`, podemos assinalar para a função `sum` exemplificada acima.
+
 Vemos, que difere da forma tradicional de declarar uma variável, aqui o nome dela vai entre parênteses, seguido pela declaração de parâmetros que a função apontada aceita.  
 
 Vejamos um exemplo: 
@@ -51,9 +63,31 @@ int     main(void)
     return (0);
 }
 ```
-No exemplo acima é declarado a variável `op` que receberá um ponteiro para uma função que aceita dois inteiros como argumento e devolve um inteiro. Em seguida, assinalamos para o endereço da função função — veja que é simples: indicamos apenas o nome — e em seguida a chamamos.
+No exemplo acima é declarado a variável `op` que receberá um ponteiro para uma função que aceita dois inteiros como argumento e devolve 
+um inteiro. Em seguida, assinalamos para o endereço da função função — veja que é simples: indicamos apenas o nome — e em seguida a 
+chamamos.
 
-Uma outra forma, é definindo um tipo especifico para essas variáveis, assim, o código fica mais claro e conciso. Veja o exemplo abaixo, no qual definimos o tipo `fptr`:
+Em resumo, esta é a forma simples de se iniciar na utilização de ponteiros para funções:
+
+Declaração da função: `int sum(int, int);`
+Declaração do ponteiro para a função: `int (fp)(int, int);`;
+Inicializa o ponteiro da função apontado para o endereço da função desejada: `fp = sum;`;
+Utiliza a função apontada: `ft(int, int);`;  
+
+Uma outra forma, é definindo um tipo especifico para essas variáveis, por meio da _keyword_ `typedef` assim, o código fica mais claro e 
+conciso. 
+
+```
+typedef <tipo_de_retorno> (*nome_do_ponteiro_)(declaração_de_parâmetros);
+```
+
+Nesse sentido, agora podemos declarar a variável que receberá o ponteiro desta maneira:
+
+```
+<nome_do_ponteiro_> <nome_da_variável>;
+```
+
+Veja o exemplo abaixo, no qual definimos o tipo `fptr`:
 
 ```c
 #include<stdio.h> 
@@ -76,6 +110,9 @@ int     sum(int a, int b)
     return (a + b);
 }
 ```
+
+### Casos de uso de ponteiros para funções
+
 Um exemplo prático de uso de ponteiros para funções é na função `qsort`, presente na biblioteca `stdlib.h`. No qual dentre os seus argumentos, exige-se um ponteiro para a função de comparação. 
 
 Vejamos:
@@ -187,3 +224,10 @@ int     min(int n1, int n2) { return (n1 - n2);}
 Feitas essas revisões, vamos agora implementar uma _Dispatch Table_. 
 
 # O que é uma "Dispatch Tables"
+
+
+# Referências
+- https://www.prodevelopertutorial.com/advanced-c-pointer-programming-chapter-4-function-pointers/
+- https://gist.github.com/jakelevi1996/5fddfe58c25d5edb5a1da5d414824c41
+- https://linux.die.net/man/3/qsort
+- https://www.cs.cmu.edu/~ab/15-123N09/lectures/Lecture%2008%20-%20Function%20Pointers.pdf 
