@@ -3,21 +3,25 @@
 #include <string.h>
 
 typedef int (*fptr) (int, int); 
+typedef struct  operator
+{
+    char    opt;
+    fptr    math_f;
+}       Operator;
 
 int     usage(void);
 fptr    get_op_func(char op);
 int     sum(int n1, int n2);
 int     min(int n1, int n2);
 int     mul(int n1, int n2);
-int     _div(int n1, int n2);
+int     divide(int n1, int n2);
 
 int     main(int argc, char **argv)
 {
     int     n1;
     int     n2;
     char    op;
-    // fptr    op_func;
-    int     (*op_func)(int a, int b);
+    fptr    op_func;
 
     if (argc < 4)
         return usage();
@@ -42,20 +46,27 @@ int     usage(void)
     return (1);
 }
 
-int     (*get_op_func(char op))(int n1, int n2)
+fptr    get_op_func(char op)
 {
-    if (op == '+') 
-        return (sum);
-    if (op == '-') 
-        return (min);
-    if (op == '*') 
-        return (mul);
-    if (op == '/') 
-        return (_div);
+    int         i;
+    Operator    opts[4] = {
+        {'+', sum}, 
+        {'-', min}, 
+        {'*', mul}, 
+        {'/', divide}, 
+    }; 
+
+    i = 0;
+    while (i < 4)
+    {
+        if (op == opts[i].opt)
+            return (opts[i].math_f);
+        i++;
+    }   
     return (NULL);
 }
 
 int     sum(int n1, int n2) { return (n1 + n2);}
 int     min(int n1, int n2) { return (n1 - n2);}
 int     mul(int n1, int n2) { return (n1 * n2);}
-int     _div(int n1, int n2) { return (n1 / n2);}
+int     divide(int n1, int n2) { return (n1 / n2);}

@@ -223,7 +223,29 @@ int     min(int n1, int n2) { return (n1 - n2);}
 
 Feitas essas revisões, vamos agora implementar uma _Dispatch Table_. 
 
-# O que é uma "Dispatch Tables"
+# O que é uma "Dispatch Table"
+
+[o que é?]
+
+Adoto aqui o conceito de ALICE GOLDFUSS
+
+A function dispatch table, also known as a jump table, is an array of function pointers. Yes, I said pointers. Don’t worry! We got this.
+
+
+Você, caro leitor, pode encontrar material também a respeito pesquisando por: _function tables_, _dynamic dispatch_ e _jump table_.
+
+
+[funções auxiliares]
+
+
+[tabela]
+    [tipo da tabela]
+
+Isso é possível, pois como escreveu Alice Goldfuss, funções, na linguagem C, são endereços de memória.
+
+[array]
+
+[lógica de chamada]
 
 
 # Referências
@@ -231,3 +253,7 @@ Feitas essas revisões, vamos agora implementar uma _Dispatch Table_.
 - https://gist.github.com/jakelevi1996/5fddfe58c25d5edb5a1da5d414824c41
 - https://linux.die.net/man/3/qsort
 - https://www.cs.cmu.edu/~ab/15-123N09/lectures/Lecture%2008%20-%20Function%20Pointers.pdf 
+- https://medium.com/@hatronix/function-pointers-in-c-unleashing-the-power-of-dynamic-dispatch-29672ffcf502
+- https://en.wikipedia.org/wiki/Dispatch_table
+- https://blog.alicegoldfuss.com/function-dispatch-tables/
+- https://vandervoord.net/blog/2015/6/2/making-function-pointers-usable-in-c
