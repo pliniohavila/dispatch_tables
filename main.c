@@ -42,7 +42,9 @@ int     main(int argc, char **argv)
 
 int     usage(void)
 {
-    fprintf(stderr, "[ERRO] Usage: ./main <int> <op> <int> - To div operator use '//'\n");
+    printf("[ERRO] Usage: ./main <int> <op> <int>");
+    printf("\n\tTo div operator use '//'");
+    printf("\n\tTo multiply operator use like form '*': 5 '*' 5\n");
     return (1);
 }
 

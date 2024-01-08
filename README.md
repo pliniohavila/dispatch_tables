@@ -39,11 +39,10 @@ Um exemplo pratico:
 int     (*op)(int a, int b);
 ```
 
-Acima, nos definimos um ponteiro para função cujo nome é `op`, que pode ser inicializado apontado para qualquer função que receba dois inteiros como 
-parâmetros e devolve um inteiro como resposta.
+Acima, nos definimos um ponteiro para função cujo nome é `op`. O qual pode ser inicializado apontado para qualquer função que receba dois inteiros como parâmetros e devolve um inteiro como resposta.
 Como se pode ver, por meio do ponteiro `op`, podemos assinalar para a função `sum` exemplificada acima.
 
-Vemos, que difere da forma tradicional de declarar uma variável, aqui o nome dela vai entre parênteses, seguido pela declaração de parâmetros que a função apontada aceita.  
+Vemos, que difere da forma tradicional de declarar uma variável. Dessa forma, o nome da variável fica entre parênteses, seguido pela declaração dos parâmetros que a função apontada aceita.  
 
 Vejamos um exemplo: 
 ```c
@@ -63,18 +62,20 @@ int     main(void)
     return (0);
 }
 ```
-No exemplo acima é declarado a variável `op` que receberá um ponteiro para uma função que aceita dois inteiros como argumento e devolve 
-um inteiro. Em seguida, assinalamos para o endereço da função função — veja que é simples: indicamos apenas o nome — e em seguida a 
+No exemplo acima é declarada a variável `op` que receberá um ponteiro para uma função que aceita dois inteiros como argumento e devolve 
+um inteiro. Em seguida, assinalamos para o endereço da função — veja que é simples: indicamos apenas o nome — e em seguida a 
 chamamos.
 
-Em resumo, esta é a forma simples de se iniciar na utilização de ponteiros para funções:
+Em resumo, essa é a forma simples de se iniciar na utilização de ponteiros para funções. 
+
+Explicando um pouco mais: 
 
 Declaração da função: `int sum(int, int);`
 Declaração do ponteiro para a função: `int (fp)(int, int);`;
-Inicializa o ponteiro da função apontado para o endereço da função desejada: `fp = sum;`;
+Inicializa o ponteiro da função apontando para o endereço da função desejada: `fp = sum;`;
 Utiliza a função apontada: `ft(int, int);`;  
 
-Uma outra forma, é definindo um tipo especifico para essas variáveis, por meio da _keyword_ `typedef` assim, o código fica mais claro e 
+Uma outra forma, é definindo um tipo específico para essas variáveis, por meio da _keyword_ `typedef`. Assim, o código fica mais claro e 
 conciso. 
 
 ```
@@ -125,7 +126,7 @@ void qsort(void *base, size_t nmemb, size_t size,
 
 Feitas as revisões acima, vamos agora compreender um pouco mais sobre funções que devolve ponteiros para outras funções.
 
-A forma primitiva de declarar uma função que devolve ponteiros para outras funções é da seguinte forma: 
+A forma comum de declarar uma função que devolve ponteiros para outras funções é da seguinte forma: 
  
 ```c
 int     (*get_op_func(char))(int, int);
@@ -133,10 +134,9 @@ int     (*get_op_func(char))(int, int);
 
 Explicando:
 
-`int`: tipo de dado a ser retornado pelas funções apontadas, ou seja, será retornado um ponteiro para um função que retorna dado do tipo inteiro;
-`(*get_op_func(char op))`: Aqui, indica que temos uma função cujo nome é `*get_op_func`, como o operador indicando que retorna um ponteiro, e que ela recebe um `char` como argumento na sua chamada. 
+`int`: tipo de dado a ser retornado pelas funções apontadas, ou seja, será retornado um ponteiro para uma função que retorna dado do tipo inteiro;
+`(*get_op_func(char op))`: Aqui, indica que temos uma função cujo nome é `*get_op_func`, com o operador indicando que retorna um ponteiro, e que ela recebe um `char` como argumento na sua chamada. 
 `(int, int)`: esse último, indica que o ponteiro retornado apontará para uma função que tem como parâmetros dois inteiros. 
-
 
 A variável de ponteiro que receberá o resultado é declarada da seguinte forma:
 
@@ -186,7 +186,7 @@ int     sum(int n1, int n2) { return (n1 + n2);}
 int     min(int n1, int n2) { return (n1 - n2);}
 ```
 
-Agora, como vimos linhas acima quando estávamos lidando com ponteiros para funções, podemos definir um tipo específico para as funções que serão retornadas. Vejamos o mesmo código com as alterações para o uso da tipagem. 
+Agora, como vimos linhas acima quando estávamos lidando com ponteiros para funções, podemos definir um tipo específico para as funções que serão retornadas. Vejamos o mesmo código com as alterações para o uso do tipo abstrato de dados. 
 
 ```c
 #include <stdio.h>
@@ -223,30 +223,156 @@ int     min(int n1, int n2) { return (n1 - n2);}
 
 Feitas essas revisões, vamos agora implementar uma _Dispatch Table_. 
 
-# O que é uma "Dispatch Table"
+# O que é uma "Dispatch Table" e como implementar
 
-[o que é?]
+Segundo Alice Goldfuss, uma _dispatch table_, também conhecida como _jump table_ é um vetor de ponteiros para funções. 
 
-Adoto aqui o conceito de ALICE GOLDFUSS
+Podemos dizer que uma _dispatch table_, é uma estrutura de dados que referencia funções ou métodos a um identificador específico. 
 
-A function dispatch table, also known as a jump table, is an array of function pointers. Yes, I said pointers. Don’t worry! We got this.
-
+```
+id_1 -> func_1
+id_2 -> func_2
+id_3 -> func_3
+```
 
 Você, caro leitor, pode encontrar material também a respeito pesquisando por: _function tables_, _dynamic dispatch_ e _jump table_.
 
+Vamos começar a implementar uma versão simples de uma _dispatch table_ — apenas para fins didáticos. Para isso, vamos aproveitar o código utilizado para a explicação sobre ponteiros para funções e funções que retornam ponteiros para funções. 
+A ele, vamos adicionar mais três funções auxiliares; são as seguintes:
 
-[funções auxiliares]
+```c
+int     usage(void);
+int     mul(int n1, int n2);
+int     divide(int n1, int n2);
 
+// {...}
 
-[tabela]
-    [tipo da tabela]
+int     usage(void)
+{
+    fprintf(stderr, "[ERRO] Usage: ./main <int> <op> <int> - To div operator use '//'\n");
+    return (1);
+}
+int     mul(int n1, int n2) { return (n1 * n2);}
+int     divide(int n1, int n2) { return (n1 / n2);}
+```
+ 
+Um vez que escrevemos as funções auxiliares, vamos agora implementar um tipo abstrato de dado do qual será composta a nossa _dispatch table_. 
 
-Isso é possível, pois como escreveu Alice Goldfuss, funções, na linguagem C, são endereços de memória.
+```c 
+typedef struct  operator
+{
+    char    opt;
+    fptr    math_f;
+}       Operator;
+```
 
-[array]
+Aqui, é definido o tipo `Operator` que é uma estrutura composta por um `char` e ponteiro para função do tipo `fptr`: já definido no código. Para fins deste exemplo, `opt` é onde é armazenado o identificador, nesse caso: um operador aritmético e `math_f` será um ponteiro para a função aritmética respectiva.
 
-[lógica de chamada]
+Isso feito, é hora de alterar a função `get_op_func` para a implementação da nossa tabela. 
 
+A primeira alteração é a substituição das estruturas condicionais por um vetor do tipo `Operator` e o inicializa com os respectivos identificadores e ponteiros para as funções concernentes.
+
+```c
+Operator    opts[4] = {
+        {'+', sum}, 
+        {'-', min}, 
+        {'*', mul}, 
+        {'/', divide}, 
+    }; 
+```
+
+A lógica para a devolução do ponteiro da função desejada se dá mediante a atividade de interação sobre o vetor `opts`. A cada membro, é comparado com o argumento `op` informado na chamada da função. Caso encontre, retorna-se o ponteiro da função, caso contrário é retornado `NULL`.  
+
+```c
+    int         i;
+    i = 0;
+    while (i < 4)
+    {
+        if (op == opts[i].opt)
+            return (opts[i].math_f);
+        i++;
+    }   
+    return (NULL);
+```
+
+Vejamos agora o código completo: 
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef int (*fptr) (int, int); 
+typedef struct  operator
+{
+    char    opt;
+    fptr    math_f;
+}       Operator;
+
+int     usage(void);
+fptr    get_op_func(char op);
+int     sum(int n1, int n2);
+int     min(int n1, int n2);
+int     mul(int n1, int n2);
+int     divide(int n1, int n2);
+
+int     main(int argc, char **argv)
+{
+    int     n1;
+    int     n2;
+    char    op;
+    fptr    op_func;
+
+    if (argc < 4)
+        return usage();
+    n1 = atoi(argv[1]);
+    n2 = atoi(argv[3]);
+    op = argv[2][0];
+    printf("[INFO] Input: %d %c %d\n", n1, op, n2);
+    op_func = get_op_func(op);
+    if (op_func == NULL)
+    {
+        fprintf(stderr, "Operator %c not available\n", op);
+        return (1);
+    }
+    printf("[INFO] Result: %d\n", op_func(n1, n2));
+
+    return (0);
+}
+
+int     usage(void)
+{
+    printf("[ERRO] Usage: ./main <int> <op> <int>");
+    printf("\n\tTo div operator use '//'");
+    printf("\n\tTo multiply operator use like form '*': 5 '*' 5\n");
+    return (1);
+}
+
+fptr    get_op_func(char op)
+{
+    int         i;
+    Operator    opts[4] = {
+        {'+', sum}, 
+        {'-', min}, 
+        {'*', mul}, 
+        {'/', divide}, 
+    }; 
+
+    i = 0;
+    while (i < 4)
+    {
+        if (op == opts[i].opt)
+            return (opts[i].math_f);
+        i++;
+    }   
+    return (NULL);
+}
+
+int     sum(int n1, int n2) { return (n1 + n2);}
+int     min(int n1, int n2) { return (n1 - n2);}
+int     mul(int n1, int n2) { return (n1 * n2);}
+int     divide(int n1, int n2) { return (n1 / n2);}
+```
 
 # Referências
 - https://www.prodevelopertutorial.com/advanced-c-pointer-programming-chapter-4-function-pointers/
